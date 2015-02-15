@@ -1,5 +1,5 @@
-FROM stackbrew/ubuntu:14.04
-MAINTAINER John Regan <john@jrjrtech.com>
+FROM ubuntu:14.04
+MAINTAINER Marc Seiler <mseiler@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -29,6 +29,10 @@ listen = 0.0.0.0:9000' /etc/php5/fpm/pool.d/www.conf
 RUN sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php5/fpm/pool.d/www.conf
 
 
+ADD startup.sh /usr/sbin/startup.sh
+
+WORKDIR /app/
+
 EXPOSE 9000
 VOLUME /app/site
-ENTRYPOINT ["php5-fpm"]
+ENTRYPOINT ["bash", "/usr/sbin/startup.sh"]
